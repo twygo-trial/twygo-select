@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  postgresql:
+    image: postgres:15-alpine
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_DB:-defaultuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-defaultpassword}
+      POSTGRES_DB: ${POSTGRES_DB:-defaultdb}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    container_name: twygo_select_web
+    restart: always
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-postgresql://defaultuser:defaultpassword@postgresql/defaultdb}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    ports:
+      - "4000:4000"
+    depends_on:
+      - postgresql
+
+volumes:
+  postgres_data:
+    driver: local
