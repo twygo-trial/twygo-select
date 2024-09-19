@@ -13,6 +13,28 @@ This README provides a basic guide on setting up and running the Rails applicati
   - Docker (optional)
   - asdf (optional)
 
+## Entity Relation Diagram
+
+```mermaid
+erDiagram
+    COURSE {
+        int id PK
+        string title
+        text description
+        date end_date
+        int video_size
+    }
+
+    VIDEO {
+        int id PK
+        string url
+        int size
+        int course_id FK
+    }
+
+    COURSE ||--o{ VIDEO : has
+```
+
 ## Setup
 
 ### 1. Clone the repository
