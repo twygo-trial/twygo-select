@@ -41,6 +41,8 @@ class CoursesController < ApplicationController
 
     def set_course
       @course = Course.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render json: { error: "Course not found" }, status: :not_found
     end
 
     def course_params

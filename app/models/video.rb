@@ -2,15 +2,17 @@ class Video < ApplicationRecord
   belongs_to :course
   validates :size, presence: true
 
-  has_one_attached :file # Associa um arquivo de vídeo
+  has_one_attached :file
 
-  validates :file, presence: true # Valida a presença do arquivo
+  validates :file, presence: true
 
-  def resize_course
-    # Update the course size (e.g., add the video size to the course size)
+  def increment_course
     course.video_size += size
+    course.save
+  end
 
-    # Save the changes to the course
+  def decrement_course
+    course.video_size -= size
     course.save
   end
 end

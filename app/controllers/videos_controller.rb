@@ -27,7 +27,7 @@ class VideosController < ApplicationController
       @video = Video.new(params)
 
       if @video.save
-        @video.resize_course()
+        @video.increment_course()
 
         render json: @video, status: :created, location: @video
       else
@@ -46,8 +46,12 @@ class VideosController < ApplicationController
 
     # DELETE /videos/:id
     def destroy
-      @video.destroy
-      head :no_content
+      if @video.decrement_course
+        @video.destroy
+        head :no_content
+      else
+        render json: { error: "Unable to delete video" }, status: :unprocessable_entity
+      end
     end
 
     private

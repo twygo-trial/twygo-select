@@ -38,4 +38,18 @@ class VideosControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :no_content
   end
+
+  test "should delete video and decrement course size" do
+    video = Video.new(file: @file, size: 10, course: @course)
+    video.save
+    @course.video_size = video.size
+    @course.save
+
+    assert_difference("Video.count", -1) do
+      delete video_url(video)
+    end
+
+    assert_response :no_content
+    assert_equal @course.reload.video_size, 0
+  end
 end

@@ -3,7 +3,7 @@
 one:
   title: MyString
   description: MyText
-  end_date: 2024-09-19
+  end_date: <%= 1.day.from_now.to_date %>
   video_size: 0
 
 two:
