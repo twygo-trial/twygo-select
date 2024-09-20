@@ -3,7 +3,7 @@ class VideosController < ApplicationController
 
     # GET /videos
     def index
-      @videos = Video.all
+      @videos = Video.where(course_id: course_id_param)
       render json: @videos
     end
 
@@ -62,5 +62,9 @@ class VideosController < ApplicationController
 
     def video_params
       params.require(:video).permit(:file, :course_id)
+    end
+
+    def course_id_param
+      params.require(:course_id)
     end
 end
