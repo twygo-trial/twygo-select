@@ -69,8 +69,6 @@ erDiagram
 
 This diagram models the relationship between `courses`, `videos`, and the attached files using Rails' Active Storage system.
 
-Let me know if you need further adjustments!
-
 ## Setup
 
 ### 1. Clone the repository
