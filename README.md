@@ -27,13 +27,49 @@ erDiagram
 
     VIDEO {
         int id PK
-        string url
         int size
         int course_id FK
     }
 
+    ACTIVE_STORAGE_ATTACHMENT {
+        int id PK
+        string name
+        string record_type
+        int record_id FK
+        int blob_id FK
+    }
+
+    ACTIVE_STORAGE_BLOB {
+        int id PK
+        string filename
+        string content_type
+        int byte_size
+        string checksum
+    }
+
     COURSE ||--o{ VIDEO : has
+    VIDEO ||--o{ ACTIVE_STORAGE_ATTACHMENT : has
+    ACTIVE_STORAGE_ATTACHMENT ||--o{ ACTIVE_STORAGE_BLOB : links
 ```
+
+### Explanation:
+
+1. **COURSE**: The `course` entity is the main table holding information about courses. It has a one-to-many relationship with the `VIDEO` entity, representing each course's videos.
+   
+2. **VIDEO**: The `video` entity stores information about each video, including its size and a foreign key (`course_id`) linking it to the `course`. It has a one-to-many relationship with `ACTIVE_STORAGE_ATTACHMENT`, which represents the file attachment.
+
+3. **ACTIVE_STORAGE_ATTACHMENT**: This table is part of Active Storage, representing the relationship between models (like `video`) and file attachments. It has fields like `name` (attachment name) and `record_type` (model type, e.g., `Video`). The `record_id` is a foreign key to the `video` table.
+
+4. **ACTIVE_STORAGE_BLOB**: This table holds the actual file metadata, including the filename, content type, byte size, and checksum. Each `attachment` links to a `blob`.
+
+### Relationships:
+- `COURSE` has many `VIDEOS`.
+- Each `VIDEO` has an `ACTIVE_STORAGE_ATTACHMENT` for the file it contains.
+- `ACTIVE_STORAGE_ATTACHMENT` links to an `ACTIVE_STORAGE_BLOB`, which contains the file data.
+
+This diagram models the relationship between `courses`, `videos`, and the attached files using Rails' Active Storage system.
+
+Let me know if you need further adjustments!
 
 ## Setup
 

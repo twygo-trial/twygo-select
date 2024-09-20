@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
   # Define the root route to point to the routes#index action
-  root 'routes#index'
+  root "routes#index"
 
   resources :courses do
-    resources :videos, only: [:index, :create]
+    resources :videos, only: [ :index, :create ]
   end
-  resources :videos, only: [:show, :update, :destroy]
+  resources :videos, only: [ :show, :update, :destroy ]
 end
